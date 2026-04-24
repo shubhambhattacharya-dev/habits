@@ -220,7 +220,8 @@ function AuthForm() {
           <Link href="#" className="font-label text-[10px] tracking-widest uppercase font-bold text-nf-text-dim hover:text-nf-primary transition-colors">Neural Terms</Link>
           <Link href="#" className="font-label text-[10px] tracking-widest uppercase font-bold text-nf-text-dim hover:text-nf-primary transition-colors">Latency Status</Link>
         </nav>
-</footer>
+      </footer>
+    </div>
   );
 }
 
