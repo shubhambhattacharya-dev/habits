@@ -1,0 +1,160 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Next.js 16 (App Router)
+  - Tailwind CSS
+  - Prisma ORM
+  - PostgreSQL (Neon)
+  - Groq AI SDK
+  - Vercel AI SDK
+  - Lucide React Icons
+routes:
+  - path: /
+    file: src/app/page.tsx
+    auth_required: false
+    description: Home Dashboard with NeuroScore ring, stat cards, One Thing task, daily wisdom, and quick actions
+  - path: /clarity
+    file: src/app/clarity/page.tsx
+    auth_required: false
+    description: AI-powered problem decomposition engine using Groq LLM
+  - path: /focus
+    file: src/app/focus/page.tsx
+    auth_required: false
+    description: Deep work timer with distraction logging and I'm Tempted intervention
+  - path: /habits
+    file: src/app/habits/page.tsx
+    auth_required: false
+    description: Habit tracker with 4 Laws of Behavior Change, streaks, and DB-backed completion toggle
+  - path: /reflect
+    file: src/app/reflect/page.tsx
+    auth_required: false
+    description: Evening reflection with 3 questions, mood/productivity scales, and AI insight generation
+  - path: /wisdom
+    file: src/app/wisdom/page.tsx
+    auth_required: false
+    description: Book wisdom library with expandable principles and Teach Back feature
+  - path: /challenges
+    file: src/app/challenges/page.tsx
+    auth_required: false
+    description: Rewire challenges with 7/14/21-day programs and progress tracking
+features:
+  - name: Home Dashboard
+    description: Central command center with dynamic time-of-day greeting, NeuroScore visualization, stat cards, and quick navigation
+    files:
+      - src/app/page.tsx
+      - src/components/dashboard/neuro-score-ring.tsx
+    entry_route: /
+    user_interactions:
+      - View the NeuroScore ring animation
+      - See dynamic greeting based on time of day
+      - View stat cards for Focus, Habits, Streak, and Clarity
+      - See the One Thing task for today
+      - Click quick action buttons to navigate to modules
+    api_calls: []
+    auth_required: false
+  - name: Clarity Engine
+    description: AI-powered problem decomposition that breaks overwhelming problems into prioritized action paths
+    files:
+      - src/app/clarity/page.tsx
+      - src/app/api/ai/clarity/route.ts
+    entry_route: /clarity
+    user_interactions:
+      - Type a problem description in the textarea
+      - Click DECOMPOSE button to trigger AI analysis
+      - View generated task cards with priority labels (critical/high/medium/low)
+      - Check off completed steps within each task
+      - Click WHAT SHOULD I DO RIGHT NOW button
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/clarity
+    auth_required: false
+  - name: Focus Shield
+    description: Deep work countdown timer with distraction tracking and emergency intervention protocol
+    files:
+      - src/app/focus/page.tsx
+      - src/actions/focus.ts
+    entry_route: /focus
+    user_interactions:
+      - Select session duration (25, 45, or 60 minutes)
+      - Click Start Deep Work Session button
+      - Watch the countdown timer
+      - Click I'm Tempted button to trigger intervention overlay
+      - Wait through 60-second countdown during intervention
+      - Click I Stayed Strong or I Gave In buttons
+      - View focus stats (deep minutes, distractions resisted)
+    api_calls: []
+    auth_required: false
+  - name: Habit Forge
+    description: Habit tracking system based on Atomic Habits 4 Laws framework with database-backed completion and streaks
+    files:
+      - src/app/habits/page.tsx
+      - src/actions/habits.ts
+    entry_route: /habits
+    user_interactions:
+      - View list of habits loaded from database
+      - Click checkbox to toggle habit completion (persisted to DB)
+      - View progress bar showing daily completion rate
+      - Click on a habit card to expand and see 4 Laws details (Cue, Craving, Response, Reward)
+      - Click New Habit button
+      - View streak count for each habit
+    api_calls: []
+    auth_required: false
+  - name: Evening Reflection
+    description: Daily review ritual with 3 reflective questions, mood/productivity scoring, and AI-generated Truth Report
+    files:
+      - src/app/reflect/page.tsx
+      - src/app/api/ai/reflect/route.ts
+      - src/actions/neuroscore.ts
+    entry_route: /reflect
+    user_interactions:
+      - Click mood scale buttons (1-10)
+      - Click productivity scale buttons (1-10)
+      - Fill in What went well textarea
+      - Fill in What distracted you textarea
+      - Fill in What will you change tomorrow textarea
+      - Click Complete Reflection button
+      - View AI-generated Truth Report insight
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/reflect
+    auth_required: false
+  - name: Book Wisdom Library
+    description: Expandable book cards with key principles, applications, and Teach Back evaluation
+    files:
+      - src/app/wisdom/page.tsx
+      - src/app/api/ai/teachback/route.ts
+    entry_route: /wisdom
+    user_interactions:
+      - Click on a book card to expand its principles
+      - Read principle explanations and applications
+      - Click Teach Back button to test understanding
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/teachback
+    auth_required: false
+  - name: Rewire Challenges
+    description: Structured 7/14/21-day challenge programs with progress tracking and status filters
+    files:
+      - src/app/challenges/page.tsx
+    entry_route: /challenges
+    user_interactions:
+      - Click filter buttons (All, Available, Active, Completed)
+      - View challenge cards with difficulty badges and progress bars
+      - Click Start Challenge button on available challenges
+      - Click Log Today button on active challenges
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: New Habit form is not yet implemented — the button opens no modal
+    location: src/app/habits/page.tsx
+    impact: Users cannot create new habits from the UI yet
+  - issue: AI features require a valid GROQ_API_KEY in .env
+    location: src/app/api/ai/clarity/route.ts
+    impact: Clarity Engine and Reflection will fail without the API key
+  - issue: Challenges page uses hardcoded data, not connected to database
+    location: src/app/challenges/page.tsx
+    impact: Challenge progress is not persisted between page reloads
+  - issue: Wisdom page uses hardcoded book data, not connected to database
+    location: src/app/wisdom/page.tsx
+    impact: Book wisdom entries from the seeded DB are not used

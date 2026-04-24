@@ -1,0 +1,355 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════
+   NEURAL VOID — NeuroForge Design System
+   The Synaptic Command Center
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* ── Surface Hierarchy (Frosted Obsidian Stack) ── */
+  --nf-void: #0A0A0F;
+  --nf-surface: #131318;
+  --nf-surface-low: #1B1B20;
+  --nf-surface-mid: #1F1F25;
+  --nf-surface-high: #2A292F;
+  --nf-surface-highest: #35343A;
+  --nf-surface-bright: #39383E;
+
+  /* ── Primary Violet Synapses ── */
+  --nf-primary: #D0BCFF;
+  --nf-primary-container: #A078FF;
+  --nf-primary-deep: #8B5CF6;
+  --nf-primary-dim: #7C3AED;
+  --nf-on-primary: #340080;
+
+  /* ── Secondary ── */
+  --nf-secondary: #CEBDFF;
+  --nf-secondary-container: #4F319C;
+
+  /* ── Semantic Colors ── */
+  --nf-success: #10B981;
+  --nf-success-dim: #059669;
+  --nf-warning: #FFB869;
+  --nf-warning-container: #CA801E;
+  --nf-error: #FFB4AB;
+  --nf-error-container: #93000A;
+
+  /* ── Text ── */
+  --nf-text: #E4E1E9;
+  --nf-text-muted: #CBC3D7;
+  --nf-text-dim: #958EA0;
+
+  /* ── Borders (Ghost Borders) ── */
+  --nf-outline: #494454;
+  --nf-outline-dim: rgba(73, 68, 84, 0.15);
+
+  /* ── Background/Foreground ── */
+  --background: var(--nf-void);
+  --foreground: var(--nf-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+
+  /* Neural Void palette */
+  --color-nf-void: var(--nf-void);
+  --color-nf-surface: var(--nf-surface);
+  --color-nf-surface-low: var(--nf-surface-low);
+  --color-nf-surface-mid: var(--nf-surface-mid);
+  --color-nf-surface-high: var(--nf-surface-high);
+  --color-nf-surface-highest: var(--nf-surface-highest);
+  --color-nf-surface-bright: var(--nf-surface-bright);
+
+  --color-nf-primary: var(--nf-primary);
+  --color-nf-primary-container: var(--nf-primary-container);
+  --color-nf-primary-deep: var(--nf-primary-deep);
+  --color-nf-primary-dim: var(--nf-primary-dim);
+  --color-nf-on-primary: var(--nf-on-primary);
+
+  --color-nf-secondary: var(--nf-secondary);
+  --color-nf-secondary-container: var(--nf-secondary-container);
+
+  --color-nf-success: var(--nf-success);
+  --color-nf-success-dim: var(--nf-success-dim);
+  --color-nf-warning: var(--nf-warning);
+  --color-nf-warning-container: var(--nf-warning-container);
+  --color-nf-error: var(--nf-error);
+  --color-nf-error-container: var(--nf-error-container);
+
+  --color-nf-text: var(--nf-text);
+  --color-nf-text-muted: var(--nf-text-muted);
+  --color-nf-text-dim: var(--nf-text-dim);
+
+  --color-nf-outline: var(--nf-outline);
+  --color-nf-outline-dim: var(--nf-outline-dim);
+}
+
+/* ── Base Reset ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--nf-surface-high) transparent;
+}
+
+body {
+  background: var(--nf-void);
+  color: var(--nf-text);
+  font-family: var(--font-inter, "Inter", system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--nf-surface-high);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nf-surface-bright);
+}
+
+/* ═══════════════════════════════════════════
+   COMPONENT CLASSES
+   ═══════════════════════════════════════════ */
+
+/* ── Glass Card ── */
+.glass-card {
+  background: rgba(31, 31, 37, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(73, 68, 84, 0.15);
+  border-radius: 0.75rem;
+}
+
+.glass-card-solid {
+  background: var(--nf-surface-low);
+  border: 1px solid rgba(73, 68, 84, 0.15);
+  border-radius: 0.75rem;
+}
+
+/* ── Neural Glow Effects ── */
+.neural-glow {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15),
+              0 0 60px rgba(139, 92, 246, 0.05);
+}
+
+.neural-glow-sm {
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.1),
+              0 0 30px rgba(139, 92, 246, 0.03);
+}
+
+.neural-glow-success {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15),
+              0 0 40px rgba(16, 185, 129, 0.05);
+}
+
+.neural-glow-warning {
+  box-shadow: 0 0 20px rgba(255, 184, 105, 0.15),
+              0 0 40px rgba(255, 184, 105, 0.05);
+}
+
+/* ── Primary Gradient Button ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--nf-primary), var(--nf-primary-container));
+  color: var(--nf-on-primary);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ── Ghost Button ── */
+.btn-ghost {
+  background: rgba(53, 52, 58, 0.2);
+  border: 1px solid rgba(73, 68, 84, 0.15);
+  color: var(--nf-text-muted);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  background: rgba(53, 52, 58, 0.5);
+  border-color: rgba(73, 68, 84, 0.4);
+  color: var(--nf-text);
+}
+
+/* ── Warning Button ── */
+.btn-warning {
+  background: linear-gradient(135deg, var(--nf-warning), var(--nf-warning-container));
+  color: #1a0f00;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+.btn-warning:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 20px rgba(255, 184, 105, 0.3);
+}
+
+/* ── Neural Chip (Tag) ── */
+.neural-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--nf-surface-high);
+  color: var(--nf-text-muted);
+  transition: all 0.2s ease;
+}
+.neural-chip.active {
+  background: var(--nf-secondary-container);
+  color: var(--nf-primary);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+}
+
+/* ── Input Field ── */
+.neural-input {
+  background: transparent;
+  border: 1px solid rgba(73, 68, 84, 0.15);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: var(--nf-text);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  outline: none;
+  width: 100%;
+}
+.neural-input::placeholder {
+  color: var(--nf-text-dim);
+}
+.neural-input:focus {
+  border-color: var(--nf-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1),
+              0 0 20px rgba(139, 92, 246, 0.05);
+}
+
+/* ── Technical Label ── */
+.tech-label {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nf-text-dim);
+}
+
+/* ── Score Ring ── */
+.score-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.score-ring svg {
+  transform: rotate(-90deg);
+}
+
+/* ── Ambient Shadow (for floating cards) ── */
+.ambient-shadow {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+              0 0 60px rgba(79, 49, 156, 0.04);
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(208, 188, 255, 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fade-in 0.4s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+
+/* ═══════════════════════════════════════════
+   PAGE TRANSITION
+   ═══════════════════════════════════════════ */
+
+.page-content {
+  animation: fade-in 0.3s ease-out;
+}

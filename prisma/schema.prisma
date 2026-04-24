@@ -1,0 +1,239 @@
+// NeuroForge Database Schema
+// Cognitive Enhancement Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// USERS — Authentication
+// ─────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  habits    Habit[]
+}
+
+// ─────────────────────────────────────────────
+// HABITS — The Habit Forge (Atomic Habits 4 Laws)
+// ─────────────────────────────────────────────
+
+model Habit {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  description     String?
+  identityStatement String?  // "I am the type of person who..."
+  
+  // The 4 Laws of Behavior Change
+  cue             String?  // Law 1: Make it obvious
+  craving         String?  // Law 2: Make it attractive
+  response        String?  // Law 3: Make it easy
+  reward          String?  // Law 4: Make it satisfying
+  
+  frequency       String   @default("daily") // daily, weekly
+  targetCount     Int      @default(1)
+  difficulty      String   @default("easy") // easy, medium, hard
+  category        String   @default("productivity") // productivity, health, learning, mindset
+  
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  completions     HabitCompletion[]
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model HabitCompletion {
+  id          String   @id @default(cuid())
+  habitId     String
+  completedAt DateTime @default(now())
+  note        String?
+  quality     Int      @default(3)
+
+  habit       Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  @@index([habitId, completedAt])
+}
+
+// ─────────────────────────────────────────────
+// FOCUS SESSIONS — The Focus Shield (Deep Work)
+// ─────────────────────────────────────────────
+
+model FocusSession {
+  id              String   @id @default(cuid())
+  startedAt       DateTime @default(now())
+  endedAt         DateTime?
+  plannedDuration Int      // in minutes
+  actualDuration  Int?     // in minutes
+  sessionType     String   @default("deep") // deep, shallow
+  
+  // What you worked on
+  taskDescription String?
+  
+  // Focus quality
+  focusScore      Int?     // 0-100
+  distractionCount Int     @default(0)
+  
+  completed       Boolean  @default(false)
+  
+  distractions    Distraction[]
+
+  @@index([startedAt])
+}
+
+model Distraction {
+  id              String   @id @default(cuid())
+  sessionId       String
+  source          String   // instagram, youtube, phone, etc.
+  triggeredAt     DateTime @default(now())
+  resisted        Boolean  @default(false) // did you resist the temptation?
+  note            String?
+
+  session         FocusSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────────────────────
+// CLARITY ENGINE — Problem Decomposition
+// ─────────────────────────────────────────────
+
+model ClaritySession {
+  id              String   @id @default(cuid())
+  problem         String   // The raw problem statement
+  decomposition   String?  // AI-generated JSON decomposition
+  optimalPath     String?  // AI-recommended next step
+  status          String   @default("active") // active, resolved, archived
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tasks           ClarityTask[]
+}
+
+model ClarityTask {
+  id              String   @id @default(cuid())
+  sessionId       String
+  title           String
+  description     String?
+  priority        String   @default("medium") // critical, high, medium, low
+  urgency         Int      @default(5) // 1-10
+  impact          Int      @default(5) // 1-10
+  estimatedTime   String?  // "15m", "1h", "3h"
+  completed       Boolean  @default(false)
+  completedAt     DateTime?
+  orderIndex      Int      @default(0)
+
+  session         ClaritySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  @@index([sessionId, orderIndex])
+}
+
+// ─────────────────────────────────────────────
+// DAILY REFLECTIONS — Evening Ritual
+// ─────────────────────────────────────────────
+
+model DailyReflection {
+  id              String   @id @default(cuid())
+  date            DateTime @default(now()) @unique
+  
+  // The 3 Evening Questions
+  whatWentWell     String?
+  whatDistracted   String?
+  whatToChange     String?
+  
+  // AI-generated insight
+  aiInsight       String?
+  
+  // Daily scores
+  overallMood     Int?     // 1-10
+  productivityScore Int?   // 1-10
+  
+  createdAt       DateTime @default(now())
+}
+
+// ─────────────────────────────────────────────
+// NEUROSCORE — Brain Performance Index
+// ─────────────────────────────────────────────
+
+model NeuroScoreEntry {
+  id              String   @id @default(cuid())
+  date            DateTime @default(now())
+  
+  // Component scores (each 0-100)
+  focusScore      Int      @default(0)
+  habitScore      Int      @default(0)
+  reflectionScore Int      @default(0)
+  clarityScore    Int      @default(0)
+  challengeScore  Int      @default(0)
+  
+  // Composite (0-1000)
+  totalScore      Int      @default(0)
+  
+  // AI analysis
+  trend           String?  // improving, stable, declining
+  insight         String?
+
+  @@index([date])
+}
+
+// ─────────────────────────────────────────────
+// REWIRE CHALLENGES — Break Bad Patterns
+// ─────────────────────────────────────────────
+
+model Challenge {
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  duration        Int      // 7, 14, or 21 days
+  category        String   // distraction, focus, learning, mindset
+  
+  startedAt       DateTime?
+  status          String   @default("available") // available, active, completed, failed
+  
+  createdAt       DateTime @default(now())
+  
+  dailyLogs       ChallengeDayLog[]
+}
+
+model ChallengeDayLog {
+  id              String   @id @default(cuid())
+  challengeId     String
+  dayNumber       Int
+  date            DateTime @default(now())
+  completed       Boolean  @default(false)
+  note            String?
+  
+  challenge       Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([challengeId, dayNumber])
+}
+
+// ─────────────────────────────────────────────
+// BOOK WISDOM — Learning & Teach-Back
+// ─────────────────────────────────────────────
+
+model BookWisdom {
+  id              String   @id @default(cuid())
+  bookTitle       String
+  principle       String
+  explanation     String
+  application     String?  // How to apply it
+  category        String   // habits, focus, money, mindset, communication
+  
+  // Teach-back tracking
+  teachBackScore  Int?     // AI score of user's explanation (0-100)
+  lastReviewedAt  DateTime?
+  
+  createdAt       DateTime @default(now())
+}

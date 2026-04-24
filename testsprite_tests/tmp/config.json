@@ -1,0 +1,17 @@
+{
+  "status": "init",
+  "scope": "codebase",
+  "type": "frontend",
+  "localEndpoint": "http://localhost:3000/",
+  "serverPort": 55467,
+  "executionArgs": {
+    "projectName": "pro",
+    "projectPath": "c:\\Users\\shubh\\OneDrive\\clound\\OneDrive\\Desktop\\pro",
+    "testIds": [],
+    "additionalInstruction": "Test the full authentication flow including registration, login, and logging out. Verify that the user is correctly redirected.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-l84RIVQkNCqZgAZpGR4uThAGAlNw2xuIpANh7su_TKE6iEu3xACmVmoIS-Nz0QCDyCfF7HkRtpmhJRlKdkE6GddNetKWWKNP9Jwqt1CZcwd5w2EAPY0ET05l8up_feq3hC8"
+    }
+  }
+}

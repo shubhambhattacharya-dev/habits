@@ -1,0 +1,101 @@
+version: "2"
+type: backend
+tech_stack:
+  - TypeScript
+  - Next.js 16 (App Router API Routes)
+  - Prisma ORM
+  - PostgreSQL (Neon)
+  - Groq AI SDK
+  - Vercel AI SDK
+routes:
+  - path: /api/ai/clarity
+    file: src/app/api/ai/clarity/route.ts
+    method: POST
+    auth_required: false
+    description: AI problem decomposition endpoint using Groq Llama 3.3 70B
+  - path: /api/ai/reflect
+    file: src/app/api/ai/reflect/route.ts
+    method: POST
+    auth_required: false
+    description: Evening reflection AI analysis and Truth Report generation
+  - path: /api/ai/teachback
+    file: src/app/api/ai/teachback/route.ts
+    method: POST
+    auth_required: false
+    description: Feynman Technique evaluation for book principle understanding
+  - path: /api/ai/morning
+    file: src/app/api/ai/morning/route.ts
+    method: POST
+    auth_required: false
+    description: Morning briefing generation with One Thing task and wisdom quote
+features:
+  - name: Clarity Engine AI
+    description: Streams AI-generated task decomposition from Groq Llama 3.3 70B
+    files:
+      - src/app/api/ai/clarity/route.ts
+      - src/lib/ai.ts
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/clarity
+        request_body:
+          problem: string
+        response: streaming text with JSON array of tasks
+    auth_required: false
+  - name: Reflection AI
+    description: Analyzes daily reflection answers and generates a brutally honest Truth Report
+    files:
+      - src/app/api/ai/reflect/route.ts
+      - src/lib/ai.ts
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/reflect
+        request_body:
+          whatWentWell: string
+          whatDistracted: string
+          whatToChange: string
+          mood: number
+          productivity: number
+        response: streaming text analysis
+    auth_required: false
+  - name: Teach Back AI
+    description: Evaluates user understanding of book principles using Feynman Technique
+    files:
+      - src/app/api/ai/teachback/route.ts
+      - src/lib/ai.ts
+    api_calls:
+      - method: POST
+        endpoint: /api/ai/teachback
+        request_body:
+          principle: string
+          bookTitle: string
+          userExplanation: string
+        response: streaming score and analysis
+    auth_required: false
+  - name: Habit Server Actions
+    description: Server-side CRUD operations for habits with completion tracking
+    files:
+      - src/actions/habits.ts
+      - src/lib/db.ts
+    api_calls: []
+    auth_required: false
+  - name: Focus Server Actions
+    description: Server-side operations for focus sessions and distraction logging
+    files:
+      - src/actions/focus.ts
+      - src/lib/db.ts
+    api_calls: []
+    auth_required: false
+  - name: NeuroScore Calculation
+    description: Weighted score engine aggregating focus, habits, reflection, clarity, and challenge data
+    files:
+      - src/actions/neuroscore.ts
+      - src/lib/db.ts
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: AI endpoints require valid GROQ_API_KEY environment variable
+    location: src/app/api/ai/
+    impact: All AI routes will return errors without the API key
+  - issue: Server actions are not exposed as REST API endpoints
+    location: src/actions/
+    impact: Cannot be tested via HTTP requests, only via Next.js server action calls

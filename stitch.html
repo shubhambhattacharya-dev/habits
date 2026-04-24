@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeuroForge - Authentication Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#2c1700",
+                        "on-surface-variant": "#cbc3d7",
+                        "inverse-primary": "#6d3bd7",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#35343a",
+                        "surface": "#131318",
+                        "primary": "#d0bcff",
+                        "on-background": "#e4e1e9",
+                        "surface-container-high": "#2a292f",
+                        "on-secondary": "#381385",
+                        "surface-container-low": "#1b1b20",
+                        "secondary-fixed": "#e8ddff",
+                        "primary-fixed-dim": "#d0bcff",
+                        "surface-dim": "#131318",
+                        "on-primary": "#3c0091",
+                        "background": "#131318",
+                        "secondary-fixed-dim": "#cebdff",
+                        "on-secondary-fixed": "#21005e",
+                        "tertiary": "#ffb869",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#5516be",
+                        "on-surface": "#e4e1e9",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#482900",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "outline": "#958ea0",
+                        "on-secondary-fixed-variant": "#4f319c",
+                        "surface-container-highest": "#35343a",
+                        "surface-container": "#1f1f25",
+                        "surface-tint": "#d0bcff",
+                        "tertiary-fixed": "#ffdcbb",
+                        "tertiary-container": "#ca801e",
+                        "primary-fixed": "#e9ddff",
+                        "primary-container": "#a078ff",
+                        "on-primary-container": "#340080",
+                        "on-secondary-container": "#bea8ff",
+                        "inverse-on-surface": "#303036",
+                        "surface-container-lowest": "#0e0e13",
+                        "outline-variant": "#494454",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-container": "#4f319c",
+                        "inverse-surface": "#e4e1e9",
+                        "surface-bright": "#39383e",
+                        "on-tertiary-container": "#3f2300",
+                        "on-primary-fixed": "#23005c",
+                        "secondary": "#cebdff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Suppressed for Linear/Transactional Flow as per rules, but JSON dictates inclusion for prompt context. Following Intentional Blank/Minimal for Auth) -->
+<!-- Applying Shared Component rules: Hide Nav Shell on Login/Signup pages -->
+<main class="flex-grow flex flex-col md:flex-row relative z-10 overflow-hidden min-h-screen">
+<!-- Left Side: Dramatic Typography & Neural Network Abstract -->
+<section class="w-full md:w-[60%] lg:w-[65%] relative flex flex-col justify-center items-start p-12 md:p-24 lg:p-32 bg-surface-container-low overflow-hidden">
+<!-- Background Graphic / Pulse (Simulated with Gradient & Blur) -->
+<div class="absolute -top-1/4 -left-1/4 w-[150%] h-[150%] bg-gradient-radial from-secondary-container/20 via-background to-background opacity-50 blur-3xl pointer-events-none z-0"></div>
+<div class="relative z-10 space-y-6">
+<div class="text-xl font-black tracking-tighter text-[#e4e1e9] mb-12 uppercase">SYNAPSE</div>
+<h1 class="font-display font-black text-6xl md:text-8xl lg:text-[140px] leading-[0.85] tracking-[-0.04em] text-on-surface">
+                    FORGING<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-container">YOUR MIND</span>
+</h1>
+<p class="font-body text-xl text-on-surface-variant max-w-lg mt-8 leading-relaxed">
+                    Initialize your neural connection. Enter the command center to optimize cognitive performance.
+                </p>
+</div>
+</section>
+<!-- Right Side: Authentication Glassmorphic Card -->
+<section class="w-full md:w-[40%] lg:w-[35%] bg-surface flex items-center justify-center p-6 md:p-12 relative z-20 shadow-[-20px_0_40px_rgba(0,0,0,0.5)]">
+<!-- Glassmorphic Container -->
+<div class="w-full max-w-md bg-surface-container/60 backdrop-blur-[20px] rounded-xl p-8 border border-outline-variant/15 relative overflow-hidden">
+<!-- Radial Glow Top Left -->
+<div class="absolute -top-12 -left-12 w-32 h-32 bg-primary-fixed-dim/5 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Segmented Control Toggle -->
+<div class="flex p-1 bg-surface-container-lowest rounded-lg mb-8" role="tablist">
+<button aria-selected="true" class="flex-1 py-3 px-4 rounded-lg bg-surface-container-high text-on-surface font-label text-sm font-bold tracking-wider uppercase transition-all shadow-md" role="tab">
+                        Access
+                    </button>
+<button aria-selected="false" class="flex-1 py-3 px-4 rounded-lg text-on-surface-variant hover:text-on-surface font-label text-sm font-medium tracking-wider uppercase transition-all" role="tab">
+                        Initialize
+                    </button>
+</div>
+<!-- Login Form -->
+<form class="space-y-6">
+<div class="space-y-1">
+<label class="block font-label text-[10px] tracking-widest uppercase text-on-surface-variant" for="email">Neural Identifier (Email)</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface placeholder-on-surface-variant/30 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all shadow-[0_0_15px_rgba(208,188,255,0)] focus:shadow-[0_0_15px_rgba(208,188,255,0.1)] font-body" id="email" placeholder="operative@synapse.network" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="block font-label text-[10px] tracking-widest uppercase text-on-surface-variant flex justify-between" for="password">
+<span>Security Cipher</span>
+<a class="text-primary hover:text-primary-container transition-colors underline decoration-primary/30 underline-offset-2" href="#">Override</a>
+</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg px-4 py-3 text-on-surface placeholder-on-surface-variant/30 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all shadow-[0_0_15px_rgba(208,188,255,0)] focus:shadow-[0_0_15px_rgba(208,188,255,0.1)] font-body" id="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="pt-4">
+<button class="w-full py-4 px-6 rounded-md bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-label text-sm font-bold tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(160,120,255,0.3)] hover:shadow-[0_0_30px_rgba(160,120,255,0.5)] active:scale-[0.98]" type="submit">
+                            ACCESS TERMINAL
+                        </button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 border-t border-white/5 bg-[#0e0e13] flex flex-col md:flex-row justify-between items-center px-12 gap-4 relative z-20">
+<div class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-violet-400">
+            © 2024 SYNAPTIC COMMAND. ALL RIGHTS RESERVED.
+        </div>
+<nav class="flex gap-6">
+<a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-[#cbc3d7]/50 hover:text-violet-300 transition-colors" href="#">Privacy Protocol</a>
+<a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-[#cbc3d7]/50 hover:text-violet-300 transition-colors" href="#">Neural Terms</a>
+<a class="font-['Inter'] text-[10px] tracking-widest uppercase font-bold text-[#cbc3d7]/50 hover:text-violet-300 transition-colors" href="#">Latency Status</a>
+</nav>
+</footer>
+</body></html>

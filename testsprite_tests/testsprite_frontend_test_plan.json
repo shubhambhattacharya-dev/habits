@@ -1,0 +1,847 @@
+[
+  {
+    "id": "TC001",
+    "title": "Focus session can be started with a selected duration",
+    "description": "Verifies a user can select a valid duration and start a deep work session with an active countdown.",
+    "category": "Focus Shield",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /focus"
+      },
+      {
+        "type": "action",
+        "description": "Select a 45-minute session duration"
+      },
+      {
+        "type": "action",
+        "description": "Start a Deep Work session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the session is running and the countdown timer is active"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Home dashboard shows key overview widgets",
+    "description": "Verifies the Home Dashboard loads and displays the NeuroScore visualization, core stat cards, and the One Thing section for daily orientation.",
+    "category": "Home Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the NeuroScore visualization is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the stat cards and the One Thing section are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Home quick action navigates to Focus module",
+    "description": "Verifies a user can use a Home quick action to reach the Focus Shield page.",
+    "category": "Home Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the quick action to open the Focus module"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands on the Focus Shield page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Focus countdown decreases over time while session is active",
+    "description": "Verifies the countdown timer visibly decreases after a deep work session starts.",
+    "category": "Focus Shield",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /focus"
+      },
+      {
+        "type": "action",
+        "description": "Select a 25-minute session duration"
+      },
+      {
+        "type": "action",
+        "description": "Start a Deep Work session"
+      },
+      {
+        "type": "action",
+        "description": "Wait for 3 seconds"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the remaining time has decreased since the session started"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Home supports the daily-start journey into a deep work session",
+    "description": "Verifies a user can go from Home to Focus via quick action and start a 25-minute session.",
+    "category": "Home Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the quick action to open the Focus module"
+      },
+      {
+        "type": "action",
+        "description": "Select a 25-minute session duration"
+      },
+      {
+        "type": "action",
+        "description": "Start a Deep Work session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the session is running and the countdown timer is active"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Clarity engine decomposes a problem into prioritized task cards",
+    "description": "Verifies submitting a problem produces task cards with priority labeling and context for urgency and impact.",
+    "category": "Clarity Engine",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /clarity"
+      },
+      {
+        "type": "action",
+        "description": "Fill a concise problem description into the problem input area"
+      },
+      {
+        "type": "action",
+        "description": "Submit the problem for decomposition"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify generated task cards are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify task cards show priority labeling and urgency/impact context"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Toggle a habit completion updates daily progress and streak visibility",
+    "description": "This test verifies a user can load habits, toggle one habit as complete for today, and see the daily completion progress update with streak information still visible.",
+    "category": "Habit Forge",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /habits"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "action",
+        "description": "Toggle a habit's completion for today"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the daily completion progress indicator updates to reflect the new completion state"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a streak count is visible for the toggled habit"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Submit evening reflection and view Truth Report",
+    "description": "This test verifies a user can complete mood/productivity scores and the three prompts, submit the reflection, and see a Truth Report displayed.",
+    "category": "Evening Reflection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reflect"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid mood score"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid productivity score"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-went-well field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-distracted-you field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-will-you-change-tomorrow field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the reflection"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a Truth Report insight is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Habit completion persists after page reload",
+    "description": "This test verifies that marking a habit complete for today persists after refreshing the page and the habit remains completed.",
+    "category": "Habit Forge",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /habits"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "action",
+        "description": "Toggle a habit's completion for today"
+      },
+      {
+        "type": "action",
+        "description": "Reload the page"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the previously toggled habit still shows as completed for today"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Clarity provides a single next action recommendation",
+    "description": "Verifies requesting an immediate next action returns exactly one actionable suggestion.",
+    "category": "Clarity Engine",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /clarity"
+      },
+      {
+        "type": "action",
+        "description": "Fill a concise problem description into the problem input area"
+      },
+      {
+        "type": "action",
+        "description": "Submit the problem for decomposition"
+      },
+      {
+        "type": "action",
+        "description": "Request an immediate what-to-do-right-now suggestion"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a single next action recommendation is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Clarity tasks support step completion via checkbox interaction",
+    "description": "Verifies a user can check off a step within a generated task and the step shows as completed.",
+    "category": "Clarity Engine",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /clarity"
+      },
+      {
+        "type": "action",
+        "description": "Fill a concise problem description into the problem input area"
+      },
+      {
+        "type": "action",
+        "description": "Submit the problem for decomposition"
+      },
+      {
+        "type": "action",
+        "description": "Check off one step within a generated task"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected step is shown as completed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Log today in an active challenge to advance progress",
+    "description": "Verifies the user can log today for an active challenge and the progress indicator updates accordingly.",
+    "category": "Rewire Challenges",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "action",
+        "description": "If no active challenge is listed, select the Available filter and start a challenge"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "action",
+        "description": "Log today for an active challenge"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the active challenge shows increased progress for today"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC013",
+    "title": "Focus intervention protocol increases resisted counter when staying strong",
+    "description": "Verifies triggering the temptation intervention and choosing to stay strong increments the resisted distractions count without ending the session.",
+    "category": "Focus Shield",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /focus"
+      },
+      {
+        "type": "action",
+        "description": "Select a 25-minute session duration"
+      },
+      {
+        "type": "action",
+        "description": "Start a Deep Work session"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the temptation intervention"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the intervention countdown to finish"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option indicating the user stayed strong"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the distractions resisted counter has increased"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC014",
+    "title": "Start an available challenge to begin a program",
+    "description": "Verifies the user can start a challenge from the Available filter and the challenge becomes active with progress UI visible.",
+    "category": "Rewire Challenges",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the Available filter"
+      },
+      {
+        "type": "action",
+        "description": "Start a challenge from the list"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the started challenge appears under Active challenges"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC015",
+    "title": "Expand a habit to view 4 Laws details",
+    "description": "This test verifies a user can expand a habit card and view its Cue, Craving, Response, and Reward details.",
+    "category": "Habit Forge",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /habits"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "action",
+        "description": "Click a habit card to expand it"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the habit shows its Cue, Craving, Response, and Reward details"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC016",
+    "title": "Home dashboard remains usable after navigating away and back",
+    "description": "Verifies returning to Home from another module still shows the NeuroScore visualization and core stats.",
+    "category": "Home Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the quick action to open the Focus module"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation control to return to the Home Dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the NeuroScore visualization is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the stat cards are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC017",
+    "title": "Request Teach Back feedback for a book principle",
+    "description": "This test verifies a user can request a Teach Back assessment for a selected book content and receive feedback displayed in the UI.",
+    "category": "Book Wisdom Library",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /wisdom"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the book library to load"
+      },
+      {
+        "type": "action",
+        "description": "Click a book card to expand it"
+      },
+      {
+        "type": "action",
+        "description": "Request a Teach Back assessment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify Teach Back feedback is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC018",
+    "title": "Focus intervention protocol handles giving in without breaking session state",
+    "description": "Verifies choosing the option indicating the user gave in does not break the active session state and the countdown continues.",
+    "category": "Focus Shield",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /focus"
+      },
+      {
+        "type": "action",
+        "description": "Select a 25-minute session duration"
+      },
+      {
+        "type": "action",
+        "description": "Start a Deep Work session"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the temptation intervention"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the intervention countdown to finish"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option indicating the user gave in"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the deep work session remains active and the countdown timer is still running"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "Daily progress reflects multiple completions",
+    "description": "This test verifies that toggling multiple habits updates the daily completion progress to reflect additional completed habits.",
+    "category": "Habit Forge",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /habits"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "action",
+        "description": "Toggle a first habit's completion for today"
+      },
+      {
+        "type": "action",
+        "description": "Toggle a second habit's completion for today"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the daily completion progress indicator reflects a higher completion rate than after only one habit was completed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "Expand a book to read principles and applications",
+    "description": "This test verifies a user can expand a book card and view its principles and application suggestions.",
+    "category": "Book Wisdom Library",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /wisdom"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the book library to load"
+      },
+      {
+        "type": "action",
+        "description": "Click a book card to expand it"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the expanded book shows principle content and application suggestions"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Filter challenges by status to find relevant programs",
+    "description": "Verifies the user can switch between status filters and see the challenge list update to match the selected filter.",
+    "category": "Rewire Challenges",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the Available filter"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "action",
+        "description": "Select the Completed filter"
+      },
+      {
+        "type": "action",
+        "description": "Select the All filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the challenge list updates when switching filters"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Clarity prevents submission with an empty problem description",
+    "description": "Verifies the user cannot decompose an empty problem and receives a validation cue.",
+    "category": "Clarity Engine",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /clarity"
+      },
+      {
+        "type": "action",
+        "description": "Submit the problem for decomposition without entering a description"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an input validation error is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Reflection requires mood and productivity selection before submit",
+    "description": "This test verifies the reflection cannot be submitted without selecting both mood and productivity and a validation indication is shown.",
+    "category": "Evening Reflection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reflect"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-went-well field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-distracted-you field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-will-you-change-tomorrow field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the reflection"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error is visible indicating required scores must be selected"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Home shows a time-of-day greeting",
+    "description": "Verifies the Home Dashboard shows a greeting appropriate to the time of day.",
+    "category": "Home Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a time-of-day greeting is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC025",
+    "title": "Reflection requires all three prompt answers before submit",
+    "description": "This test verifies the reflection cannot be submitted when a prompt answer is missing and the user is shown a validation indication.",
+    "category": "Evening Reflection",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /reflect"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid mood score"
+      },
+      {
+        "type": "action",
+        "description": "Select a valid productivity score"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-went-well field"
+      },
+      {
+        "type": "action",
+        "description": "Fill in reflective text into the what-distracted-you field"
+      },
+      {
+        "type": "action",
+        "description": "Leave the what-will-you-change-tomorrow field empty"
+      },
+      {
+        "type": "action",
+        "description": "Submit the reflection"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation error is visible indicating all reflection prompts must be completed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC026",
+    "title": "Clarity handles long problem input without breaking task display",
+    "description": "Verifies a long problem description can be submitted and resulting task cards remain readable on the page.",
+    "category": "Clarity Engine",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /clarity"
+      },
+      {
+        "type": "action",
+        "description": "Fill a long multi-sentence problem description into the problem input area"
+      },
+      {
+        "type": "action",
+        "description": "Submit the problem for decomposition"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify generated task cards are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC027",
+    "title": "View challenge cards with difficulty and progress information",
+    "description": "Verifies challenge cards display key metadata (difficulty and progress) so the user can compare programs.",
+    "category": "Rewire Challenges",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the All filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify challenge cards display a difficulty indicator and a progress indicator"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC028",
+    "title": "Progress is not persisted after page reload",
+    "description": "Verifies that after logging today and reloading the page, the challenge progress resets as expected for non-persisted challenge tracking.",
+    "category": "Rewire Challenges",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "action",
+        "description": "If no active challenge is listed, select the Available filter and start a challenge"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "action",
+        "description": "Log today for an active challenge"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /challenges"
+      },
+      {
+        "type": "action",
+        "description": "Select the Active filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the challenge does not retain the logged progress after reload"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC029",
+    "title": "New Habit control does not break the page",
+    "description": "This test verifies that interacting with the New Habit control does not crash or navigate away and the habits list remains usable.",
+    "category": "Habit Forge",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /habits"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the habits list to load"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to create a new habit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the habits page remains interactive and the habits list is still displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]
