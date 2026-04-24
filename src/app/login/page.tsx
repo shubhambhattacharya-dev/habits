@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function AuthPortal() {
+function AuthForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialMode = searchParams.get("mode") === "register" ? "register" : "login";
@@ -220,7 +220,14 @@ export default function AuthPortal() {
           <Link href="#" className="font-label text-[10px] tracking-widest uppercase font-bold text-nf-text-dim hover:text-nf-primary transition-colors">Neural Terms</Link>
           <Link href="#" className="font-label text-[10px] tracking-widest uppercase font-bold text-nf-text-dim hover:text-nf-primary transition-colors">Latency Status</Link>
         </nav>
-      </footer>
-    </div>
+</footer>
+  );
+}
+
+export default function AuthPortal() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-nf-surface" />}>
+      <AuthForm />
+    </Suspense>
   );
 }
