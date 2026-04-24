@@ -22,7 +22,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  habits    Habit[]
+  habits          Habit[]
+  focusSessions   FocusSession[]
+  claritySessions ClaritySession[]
+  reflections     DailyReflection[]
+  neuroScores     NeuroScoreEntry[]
+  challenges      Challenge[]
+  bookWisdoms     BookWisdom[]
 }
 
 // ─────────────────────────────────────────────
@@ -74,6 +80,7 @@ model HabitCompletion {
 
 model FocusSession {
   id              String   @id @default(cuid())
+  userId          String
   startedAt       DateTime @default(now())
   endedAt         DateTime?
   plannedDuration Int      // in minutes
@@ -90,8 +97,9 @@ model FocusSession {
   completed       Boolean  @default(false)
   
   distractions    Distraction[]
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([startedAt])
+  @@index([userId, startedAt])
 }
 
 model Distraction {
@@ -111,6 +119,7 @@ model Distraction {
 
 model ClaritySession {
   id              String   @id @default(cuid())
+  userId          String
   problem         String   // The raw problem statement
   decomposition   String?  // AI-generated JSON decomposition
   optimalPath     String?  // AI-recommended next step
@@ -119,6 +128,9 @@ model ClaritySession {
   updatedAt       DateTime @updatedAt
 
   tasks           ClarityTask[]
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model ClarityTask {
@@ -145,7 +157,8 @@ model ClarityTask {
 
 model DailyReflection {
   id              String   @id @default(cuid())
-  date            DateTime @default(now()) @unique
+  userId          String
+  date            DateTime @default(now())
   
   // The 3 Evening Questions
   whatWentWell     String?
@@ -160,6 +173,9 @@ model DailyReflection {
   productivityScore Int?   // 1-10
   
   createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
 }
 
 // ─────────────────────────────────────────────
@@ -168,6 +184,7 @@ model DailyReflection {
 
 model NeuroScoreEntry {
   id              String   @id @default(cuid())
+  userId          String
   date            DateTime @default(now())
   
   // Component scores (each 0-100)
@@ -184,7 +201,9 @@ model NeuroScoreEntry {
   trend           String?  // improving, stable, declining
   insight         String?
 
-  @@index([date])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
 }
 
 // ─────────────────────────────────────────────
@@ -193,6 +212,7 @@ model NeuroScoreEntry {
 
 model Challenge {
   id              String   @id @default(cuid())
+  userId          String
   title           String
   description     String
   duration        Int      // 7, 14, or 21 days
@@ -204,6 +224,9 @@ model Challenge {
   createdAt       DateTime @default(now())
   
   dailyLogs       ChallengeDayLog[]
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model ChallengeDayLog {
@@ -225,6 +248,7 @@ model ChallengeDayLog {
 
 model BookWisdom {
   id              String   @id @default(cuid())
+  userId          String
   bookTitle       String
   principle       String
   explanation     String
@@ -236,4 +260,7 @@ model BookWisdom {
   lastReviewedAt  DateTime?
   
   createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }

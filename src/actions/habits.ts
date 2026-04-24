@@ -83,6 +83,14 @@ export async function createHabit(data: {
 // ── TOGGLE HABIT COMPLETION ──
 export async function toggleHabitCompletion(habitId: string) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
+    const habit = await db.habit.findUnique({
+      where: { id: habitId, userId }
+    });
+    if (!habit) throw new Error("Habit not found");
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -112,8 +120,10 @@ export async function toggleHabitCompletion(habitId: string) {
 // ── DELETE HABIT ──
 export async function deleteHabit(habitId: string) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
     await db.habit.update({
-      where: { id: habitId },
+      where: { id: habitId, userId },
       data: { isActive: false },
     });
     revalidatePath("/habits");
@@ -127,8 +137,14 @@ export async function deleteHabit(habitId: string) {
 // ── GET HABIT STREAK ──
 export async function getHabitStreak(habitId: string): Promise<number> {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const completions = await db.habitCompletion.findMany({
-      where: { habitId },
+      where: { 
+        habitId,
+        habit: { userId }
+      },
       orderBy: { completedAt: "desc" },
       select: { completedAt: true },
     });

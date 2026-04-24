@@ -20,6 +20,7 @@ export async function getChallenges() {
     if (!userId) throw new Error("Unauthorized");
 
     const challenges = await db.challenge.findMany({
+      where: { userId },
       orderBy: { createdAt: "asc" },
       include: {
         dailyLogs: true
@@ -47,7 +48,7 @@ export async function startChallenge(challengeId: string) {
     if (!userId) throw new Error("Unauthorized");
 
     const challenge = await db.challenge.findUnique({
-      where: { id: challengeId },
+      where: { id: challengeId, userId },
       include: { dailyLogs: true }
     });
     if (!challenge) return { success: false, error: "Challenge not found" };
@@ -60,7 +61,7 @@ export async function startChallenge(challengeId: string) {
       }
     });
     await db.challenge.update({
-      where: { id: challengeId },
+      where: { id: challengeId, userId },
       data: { status: "active", startedAt: new Date() }
     });
     revalidatePath("/challenges");
@@ -78,7 +79,7 @@ export async function logChallengeProgress(challengeId: string) {
     if (!userId) throw new Error("Unauthorized");
 
     const challenge = await db.challenge.findUnique({
-      where: { id: challengeId },
+      where: { id: challengeId, userId },
       include: { dailyLogs: true }
     });
     if (!challenge) return { success: false, error: "Challenge not found" };
@@ -97,7 +98,7 @@ export async function logChallengeProgress(challengeId: string) {
 
     if (isCompleted) {
       await db.challenge.update({
-        where: { id: challengeId },
+        where: { id: challengeId, userId },
         data: { status: "completed" }
       });
     }

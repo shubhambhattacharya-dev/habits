@@ -13,7 +13,7 @@ const protectedRoutes = [
 // Define auth routes (should not be accessible if already logged in)
 const authRoutes = ["/login", "/register"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Check if it's an API route or static asset
