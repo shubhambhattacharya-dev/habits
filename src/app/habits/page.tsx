@@ -3,7 +3,7 @@
 import { Flame, Plus, Check, X, Sparkles, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { getHabits, toggleHabitCompletion } from "@/actions/habits";
+import { getHabits, toggleHabitCompletion, createHabit } from "@/actions/habits";
 
 interface Habit {
   id: string;
@@ -57,6 +57,36 @@ export default function HabitsPage() {
   const completed = habits.filter((h) => h.completedToday).length;
   const total = habits.length;
 
+  const handleSubmit = async (formData: FormData) => {
+    const name = formData.get("name") as string;
+    if (!name) return;
+    
+    setIsLoading(true);
+    try {
+      const result = await createHabit({
+        name,
+        identityStatement: formData.get("identityStatement") as string,
+        category: formData.get("category") as string,
+        cue: formData.get("cue") as string,
+        craving: formData.get("craving") as string,
+        response: formData.get("response") as string,
+        reward: formData.get("reward") as string,
+      });
+
+      if (result.success) {
+        setShowForm(false);
+        await loadHabits();
+      } else {
+        alert(result.error || "Failed to create habit");
+      }
+    } catch (err) {
+      console.error("Error creating habit:", err);
+      alert("A system error occurred while forging your habit.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-start justify-between">
@@ -76,7 +106,7 @@ export default function HabitsPage() {
         <div className="flex justify-center p-12">
           <Loader2 className="w-8 h-8 text-nf-primary-container animate-spin" />
         </div>
-      ) : habits.length === 0 ? (
+      ) : habits.length === 0 && !showForm ? (
         <div className="glass-card p-12 text-center">
           <p className="text-sm text-nf-text-dim mb-4">You haven't forged any habits yet.</p>
           <button id="btn-create-first-habit" onClick={() => setShowForm(true)} className="btn-primary inline-flex items-center gap-2 text-sm">
@@ -106,22 +136,7 @@ export default function HabitsPage() {
                 <X className="w-4 h-4" />
               </button>
               <h2 className="text-lg font-bold mb-4">Forge a New Habit</h2>
-              <form action={async (formData) => {
-                setIsLoading(true);
-                const name = formData.get("name") as string;
-                if (!name) return;
-                await import("@/actions/habits").then(m => m.createHabit({
-                  name,
-                  identityStatement: formData.get("identityStatement") as string,
-                  category: formData.get("category") as string,
-                  cue: formData.get("cue") as string,
-                  craving: formData.get("craving") as string,
-                  response: formData.get("response") as string,
-                  reward: formData.get("reward") as string,
-                }));
-                setShowForm(false);
-                await loadHabits();
-              }} className="space-y-4">
+              <form action={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs text-nf-text-muted">Habit Name</label>
