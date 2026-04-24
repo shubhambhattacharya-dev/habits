@@ -106,28 +106,33 @@ export default function HabitsPage() {
         <div className="flex justify-center p-12">
           <Loader2 className="w-8 h-8 text-nf-primary-container animate-spin" />
         </div>
-      ) : habits.length === 0 && !showForm ? (
-        <div className="glass-card p-12 text-center">
-          <p className="text-sm text-nf-text-dim mb-4">You haven't forged any habits yet.</p>
-          <button id="btn-create-first-habit" onClick={() => setShowForm(true)} className="btn-primary inline-flex items-center gap-2 text-sm">
-            <Plus className="w-4 h-4" />Create Your First Habit
-          </button>
-        </div>
       ) : (
-        <>
-          {/* Progress Bar */}
-          <div className="glass-card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <span className="tech-label">TODAY&apos;S PROGRESS</span>
-              <span className="text-sm font-mono font-bold text-nf-text">{completed}/{total}</span>
+        <div className="space-y-6">
+          {/* Progress Bar (Only if habits exist) */}
+          {habits.length > 0 && (
+            <div className="glass-card p-5">
+              <div className="flex items-center justify-between mb-3">
+                <span className="tech-label">TODAY&apos;S PROGRESS</span>
+                <span className="text-sm font-mono font-bold text-nf-text">{completed}/{total}</span>
+              </div>
+              <div className="w-full h-2 bg-nf-surface-high rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-nf-primary-deep to-nf-success rounded-full transition-all duration-500" style={{ width: `${total > 0 ? (completed / total) * 100 : 0}%` }} />
+              </div>
+              <p className="text-xs text-nf-text-dim mt-2">
+                {completed === total && total > 0 ? "🔥 All habits complete! Your identity is being forged." : `${total - completed} habits remaining. Keep going.`}
+              </p>
             </div>
-            <div className="w-full h-2 bg-nf-surface-high rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-nf-primary-deep to-nf-success rounded-full transition-all duration-500" style={{ width: `${total > 0 ? (completed / total) * 100 : 0}%` }} />
+          )}
+
+          {/* Empty State */}
+          {habits.length === 0 && !showForm && (
+            <div className="glass-card p-12 text-center border-dashed border-nf-outline">
+              <p className="text-sm text-nf-text-dim mb-4">You haven't forged any habits yet.</p>
+              <button id="btn-create-first-habit" onClick={() => setShowForm(true)} className="btn-primary inline-flex items-center gap-2 text-sm">
+                <Plus className="w-4 h-4" />Create Your First Habit
+              </button>
             </div>
-            <p className="text-xs text-nf-text-dim mt-2">
-              {completed === total && total > 0 ? "🔥 All habits complete! Your identity is being forged." : `${total - completed} habits remaining. Keep going.`}
-            </p>
-          </div>
+          )}
 
           {/* New Habit Form */}
           {showForm && (
@@ -220,7 +225,7 @@ export default function HabitsPage() {
               </div>
             ))}
           </div>
-        </>
+        </div>
       )}
 
       <div className="glass-card-solid p-4 text-center">
