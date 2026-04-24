@@ -2,6 +2,16 @@
 
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
+
+async function getAuthUserId() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth_token")?.value;
+  if (!token) return null;
+  const decoded = verifyToken(token);
+  return decoded?.userId || null;
+}
 
 // ── START FOCUS SESSION ──
 export async function startFocusSession(data: {
@@ -10,8 +20,12 @@ export async function startFocusSession(data: {
   taskDescription?: string;
 }) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const session = await db.focusSession.create({
       data: {
+        userId,
         plannedDuration: data.plannedDuration,
         sessionType: data.sessionType || "deep",
         taskDescription: data.taskDescription || null,
@@ -31,8 +45,11 @@ export async function endFocusSession(
   data: { actualDuration: number; focusScore: number; completed: boolean }
 ) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const session = await db.focusSession.update({
-      where: { id: sessionId },
+      where: { id: sessionId, userId },
       data: {
         endedAt: new Date(),
         actualDuration: data.actualDuration,
@@ -56,6 +73,15 @@ export async function logDistraction(data: {
   note?: string;
 }) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
+    // Verify session belongs to user
+    const session = await db.focusSession.findUnique({
+      where: { id: data.sessionId, userId }
+    });
+    if (!session) throw new Error("Session not found");
+
     await db.distraction.create({
       data: {
         sessionId: data.sessionId,
@@ -67,7 +93,7 @@ export async function logDistraction(data: {
 
     // Increment distraction count on session
     await db.focusSession.update({
-      where: { id: data.sessionId },
+      where: { id: data.sessionId, userId },
       data: { distractionCount: { increment: 1 } },
     });
 
@@ -82,11 +108,14 @@ export async function logDistraction(data: {
 // ── GET TODAY'S FOCUS STATS ──
 export async function getTodayFocusStats() {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const sessions = await db.focusSession.findMany({
-      where: { startedAt: { gte: today } },
+      where: { userId, startedAt: { gte: today } },
       include: { distractions: true },
     });
 

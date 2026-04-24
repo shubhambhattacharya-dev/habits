@@ -2,6 +2,16 @@
 
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
+
+async function getAuthUserId() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth_token")?.value;
+  if (!token) return null;
+  const decoded = verifyToken(token);
+  return decoded?.userId || null;
+}
 
 // ── SAVE REFLECTION ──
 export async function saveReflection(data: {
@@ -13,11 +23,19 @@ export async function saveReflection(data: {
   aiInsight?: string;
 }) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const reflection = await db.dailyReflection.upsert({
-      where: { date: today },
+      where: { 
+        userId_date: {
+          userId,
+          date: today 
+        }
+      },
       update: {
         whatWentWell: data.whatWentWell,
         whatDistracted: data.whatDistracted,
@@ -27,6 +45,7 @@ export async function saveReflection(data: {
         aiInsight: data.aiInsight || null,
       },
       create: {
+        userId,
         date: today,
         whatWentWell: data.whatWentWell,
         whatDistracted: data.whatDistracted,
@@ -48,11 +67,14 @@ export async function saveReflection(data: {
 // ── GET RECENT REFLECTIONS ──
 export async function getRecentReflections(days: number = 7) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const since = new Date();
     since.setDate(since.getDate() - days);
 
     return await db.dailyReflection.findMany({
-      where: { date: { gte: since } },
+      where: { userId, date: { gte: since } },
       orderBy: { date: "desc" },
     });
   } catch {
@@ -63,12 +85,15 @@ export async function getRecentReflections(days: number = 7) {
 // ── CALCULATE NEUROSCORE ──
 export async function calculateNeuroScore() {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     // Focus score (0-100): based on deep work minutes
     const sessions = await db.focusSession.findMany({
-      where: { startedAt: { gte: today } },
+      where: { userId, startedAt: { gte: today } },
     });
     const deepMinutes = sessions
       .filter((s) => s.sessionType === "deep" && s.actualDuration)
@@ -76,9 +101,12 @@ export async function calculateNeuroScore() {
     const focusScore = Math.min(100, Math.round((deepMinutes / 120) * 100));
 
     // Habit score (0-100): completion rate
-    const habits = await db.habit.findMany({ where: { isActive: true } });
+    const habits = await db.habit.findMany({ where: { userId, isActive: true } });
     const completions = await db.habitCompletion.findMany({
-      where: { completedAt: { gte: today } },
+      where: { 
+        habit: { userId },
+        completedAt: { gte: today } 
+      },
     });
     const habitScore =
       habits.length > 0
@@ -87,19 +115,19 @@ export async function calculateNeuroScore() {
 
     // Reflection score (0-100): did you reflect today?
     const reflection = await db.dailyReflection.findFirst({
-      where: { date: { gte: today } },
+      where: { userId, date: { gte: today } },
     });
     const reflectionScore = reflection ? 100 : 0;
 
     // Clarity score (0-100): active clarity sessions
     const claritySessions = await db.claritySession.findMany({
-      where: { status: "active" },
+      where: { userId, status: "active" },
     });
     const clarityScore = Math.min(100, claritySessions.length * 25);
 
     // Challenge score (0-100): active challenges progress
     const activeChallenges = await db.challenge.findMany({
-      where: { status: "active" },
+      where: { userId, status: "active" },
       include: { dailyLogs: true },
     });
     const challengeScore =
@@ -125,6 +153,7 @@ export async function calculateNeuroScore() {
     // Save to DB
     await db.neuroScoreEntry.create({
       data: {
+        userId,
         focusScore,
         habitScore,
         reflectionScore,
@@ -159,11 +188,14 @@ export async function calculateNeuroScore() {
 // ── GET NEUROSCORE TREND ──
 export async function getNeuroScoreTrend(days: number = 14) {
   try {
+    const userId = await getAuthUserId();
+    if (!userId) throw new Error("Unauthorized");
+
     const since = new Date();
     since.setDate(since.getDate() - days);
 
     return await db.neuroScoreEntry.findMany({
-      where: { date: { gte: since } },
+      where: { userId, date: { gte: since } },
       orderBy: { date: "asc" },
     });
   } catch {
