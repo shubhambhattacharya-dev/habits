@@ -22,18 +22,16 @@ export async function getChallenges() {
     const challenges = await db.challenge.findMany({
       orderBy: { createdAt: "asc" },
       include: {
-        progress: {
-          where: { userId }
-        }
+        dailyLogs: true
       }
     });
 
     return challenges.map(ch => {
-      const userProgress = ch.progress[0];
+      const userProgress = ch.dailyLogs[0];
       return {
         ...ch,
-        status: userProgress ? (userProgress.completedAt ? "completed" : "active") : "available",
-        currentProgress: userProgress?.currentDay || 0,
+        status: userProgress?.completed ? "completed" : userProgress ? "active" : "available",
+        currentProgress: userProgress?.dayNumber || 0,
       };
     });
   } catch (error) {
@@ -48,12 +46,22 @@ export async function startChallenge(challengeId: string) {
     const userId = await getAuthUserId();
     if (!userId) throw new Error("Unauthorized");
 
-    await db.challengeProgress.create({
+    const challenge = await db.challenge.findUnique({
+      where: { id: challengeId },
+      include: { dailyLogs: true }
+    });
+    if (!challenge) return { success: false, error: "Challenge not found" };
+
+    await db.challengeDayLog.create({
       data: {
-        userId,
         challengeId,
-        currentDay: 0,
+        dayNumber: 1,
+        completed: true,
       }
+    });
+    await db.challenge.update({
+      where: { id: challengeId },
+      data: { status: "active", startedAt: new Date() }
     });
     revalidatePath("/challenges");
     return { success: true };
@@ -69,26 +77,30 @@ export async function logChallengeProgress(challengeId: string) {
     const userId = await getAuthUserId();
     if (!userId) throw new Error("Unauthorized");
 
-    const progress = await db.challengeProgress.findFirst({
-      where: { userId, challengeId, completedAt: null }
+    const challenge = await db.challenge.findUnique({
+      where: { id: challengeId },
+      include: { dailyLogs: true }
     });
-
-    if (!progress) return { success: false, error: "Challenge not active" };
-
-    const challenge = await db.challenge.findUnique({ where: { id: challengeId } });
     if (!challenge) return { success: false, error: "Challenge not found" };
 
-    const newDay = progress.currentDay + 1;
-    const isCompleted = newDay >= challenge.durationDays;
+    const existingLogs = challenge.dailyLogs.length;
+    const newDay = existingLogs + 1;
+    const isCompleted = newDay >= challenge.duration;
 
-    await db.challengeProgress.update({
-      where: { id: progress.id },
+    await db.challengeDayLog.create({
       data: {
-        currentDay: newDay,
-        lastLoggedAt: new Date(),
-        ...(isCompleted && { completedAt: new Date() })
+        challengeId,
+        dayNumber: newDay,
+        completed: true,
       }
     });
+
+    if (isCompleted) {
+      await db.challenge.update({
+        where: { id: challengeId },
+        data: { status: "completed" }
+      });
+    }
 
     revalidatePath("/challenges");
     return { success: true };

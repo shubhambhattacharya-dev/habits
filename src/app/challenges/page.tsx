@@ -9,19 +9,11 @@ interface Challenge {
   id: string;
   title: string;
   description: string;
-  durationDays: number;
+  duration: number;
   category: string;
-  difficulty: string;
   status: "available" | "active" | "completed";
   currentProgress: number;
 }
-
-const difficultyColors: Record<string, string> = {
-  easy: "text-nf-success bg-nf-success/10",
-  medium: "text-nf-warning bg-nf-warning/10",
-  hard: "text-nf-error bg-nf-error/10",
-  extreme: "text-red-400 bg-red-400/10",
-};
 
 const statusIcons = { available: Play, active: Clock, completed: CheckCircle2 };
 
@@ -37,15 +29,14 @@ export default function ChallengesPage() {
   const loadChallenges = async () => {
     try {
       setIsLoading(true);
-      const data = await getChallenges("local-user");
+      const data = await getChallenges();
       // Map database names to UI expectations
       const formatted = data.map((d) => ({
         id: d.id,
         title: d.title,
         description: d.description || "",
-        durationDays: d.durationDays,
+        duration: d.duration,
         category: d.category,
-        difficulty: d.difficulty,
         status: d.status as "available" | "active" | "completed",
         currentProgress: d.currentProgress,
       }));
@@ -111,9 +102,9 @@ export default function ChallengesPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <StatusIcon className={cn("w-4 h-4", ch.status === "active" ? "text-nf-primary-container" : ch.status === "completed" ? "text-nf-success" : "text-nf-text-dim")} />
-                    <span className={cn("text-[10px] px-2 py-0.5 rounded-full font-medium", difficultyColors[ch.difficulty])}>{ch.difficulty}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-medium text-nf-primary bg-nf-primary/10">{ch.category}</span>
                   </div>
-                  <span className="tech-label">{ch.durationDays} DAYS</span>
+                  <span className="tech-label">{ch.duration} DAYS</span>
                 </div>
 
                 <h3 className="text-base font-semibold mb-2">{ch.title}</h3>
@@ -123,11 +114,11 @@ export default function ChallengesPage() {
                 {ch.status !== "available" && (
                   <div className="mb-4">
                     <div className="flex justify-between text-[10px] text-nf-text-dim mb-1">
-                      <span>Day {ch.currentProgress}/{ch.durationDays}</span>
-                      <span>{Math.round((ch.currentProgress / ch.durationDays) * 100)}%</span>
+                      <span>Day {ch.currentProgress}/{ch.duration}</span>
+                      <span>{Math.round((ch.currentProgress / ch.duration) * 100)}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-nf-surface-high rounded-full overflow-hidden">
-                      <div className={cn("h-full rounded-full transition-all", ch.status === "completed" ? "bg-nf-success" : "bg-gradient-to-r from-nf-primary-deep to-nf-primary-container")} style={{ width: `${(ch.currentProgress / ch.durationDays) * 100}%` }} />
+                      <div className={cn("h-full rounded-full transition-all", ch.status === "completed" ? "bg-nf-success" : "bg-gradient-to-r from-nf-primary-deep to-nf-primary-container")} style={{ width: `${(ch.currentProgress / ch.duration) * 100}%` }} />
                     </div>
                   </div>
                 )}
